@@ -6,7 +6,9 @@
 //
 
 import Foundation
+protocol IRepository: AnyObject {
 
+}
 class Repository {
 	
 }

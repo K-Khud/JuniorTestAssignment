@@ -6,11 +6,19 @@
 //
 
 import UIKit
+protocol ICategoryViewController: AnyObject {
+	// Loads up the initial list with all products per category
+	func didUpdateList(model: Products)
+	// Loads up the availability for a particular product
+	func didUpdateProduct(model: Product)
+	// Error handling
+	func didFailWithError(error: Error)
+}
 
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 	private let category: String
-	private var client 			= BadApiClient()
+	private lazy var repository = Repository(parent: self)
 	private var detailsViewController: DetailsViewController?
 	private var tableView 		= UITableView()
 	private var productsArray 	= Products()
@@ -38,7 +46,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		client.delegate 									= self
+//		client.delegate 									= self
 		tableView.delegate 									= self
 		tableView.dataSource 								= self
 		searchBar.searchTextField.delegate 					= self
@@ -47,7 +55,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		registerCells()
 		configureSearchBar()
 		configureTableView()
-		client.fetchProducts(category: category)
+		repository.fetchProducts(category: category)
 		setupLoadingView()
 	}
 
@@ -92,22 +100,22 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let arrayForDisplay = listIsFiltered ? filteredData : productsArray
 		animateLoading()
-		let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "shirtsCell")
-		let color = arrayForDisplay[indexPath.row].color[0]
-		let name = arrayForDisplay[indexPath.row].name
-		let manufacturer = arrayForDisplay[indexPath.row].manufacturer.rawValue
-		let price = String(arrayForDisplay[indexPath.row].price)
-		let detailsString = "price: \(price), manufacturer: \(manufacturer)"
-		cell.imageView?.image = getImageColored(color: color)
-		cell.textLabel?.text = name
-		cell.accessoryType = .disclosureIndicator
-		cell.detailTextLabel?.text = detailsString
+		let cell 					= UITableViewCell(style: .subtitle, reuseIdentifier: "shirtsCell")
+		let color 					= arrayForDisplay[indexPath.row].color[0]
+		let name 					= arrayForDisplay[indexPath.row].name
+		let manufacturer 			= arrayForDisplay[indexPath.row].manufacturer.rawValue
+		let price 					= String(arrayForDisplay[indexPath.row].price)
+		let detailsString 			= "price: \(price), manufacturer: \(manufacturer)"
+		cell.imageView?.image 		= getImageColored(color: color)
+		cell.textLabel?.text 		= name
+		cell.accessoryType 			= .disclosureIndicator
+		cell.detailTextLabel?.text 	= detailsString
 		return cell
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let arrayForDisplay = listIsFiltered ? filteredData : productsArray
-		client.fetchAvailability(for: arrayForDisplay[indexPath.row])
+		repository.fetchAvailability(for: arrayForDisplay[indexPath.row])
 		detailsViewController = DetailsViewController(product: arrayForDisplay[indexPath.row])
 		if let detailsViewController = detailsViewController {
 			self.navigationController?.pushViewController(detailsViewController,
@@ -145,21 +153,22 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	}
 }
 // MARK: - BadApiClientDelegate methods
-extension CategoryViewController: BadApiClientDelegate {
+extension CategoryViewController: ICategoryViewController {
 
-	func didUpdateList(_ badApiClient: BadApiClient, model: Products) {
+	func didUpdateList(model: Products) {
 		DispatchQueue.main.async {
 			self.productsArray = model
 			self.tableView.reloadData()
 		}
 	}
 
-	func didUpdateProduct(_ badApiClient: BadApiClient, model: Product) {
+	func didUpdateProduct(model: Product) {
 		detailsViewController?.updateData(with: model)
 	}
 
 	func didFailWithError(error: Error) {
 		print(error)
+		// TODO: show the try again alert!
 	}
 }
 // MARK: - UITextFieldDelegate methods

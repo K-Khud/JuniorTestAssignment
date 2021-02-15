@@ -30,11 +30,11 @@ enum Color: String, Codable {
 
 enum Manufacturer: String, Codable {
 	case abiplos
-	case hennex
+	case ippal
 	case juuran
 	case laion
 	case niksleh
-	case okkau
+	case umpante
 }
 
 enum TypeEnum: String, Codable {

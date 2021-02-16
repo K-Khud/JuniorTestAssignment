@@ -89,6 +89,8 @@ public class BadApiClient {
 extension BadApiClient: IBadApiClient {
 	// The following method gets called upon initial loading of a chosen viewController
 	func fetchProducts(category: String) {
+		print("products from BadApiClient")
+
 		let urlString = "\(apiUrl)products/\(category)"
 		// Performing request for a chosen category
 		performRequest(with: urlString) { (result) in
@@ -108,6 +110,7 @@ extension BadApiClient: IBadApiClient {
 	// The following method gets called when a user proceeds to check product details
 	func fetchAvailability(for product: Product) {
 		let urlString = "\(apiUrl)availability/\(product.manufacturer.rawValue)"
+		var payloadArray = [PayloadFile]()
 		// Performing request for a chosen manufacturer
 		performRequest(with: urlString) { (result) in
 			_ = result.map { (data) in
@@ -115,27 +118,35 @@ extension BadApiClient: IBadApiClient {
 					print("Data is empty")
 				} else {
 					if let safeData = self.parseJsonToAvailabilityList(data) {
-						safeData.forEach { (availability) in
 
-							if availability.id == product.id.uppercased() {
+						safeData.forEach { (availability) in
+							if let id = availability.id, let payload = availability.datapayload {
 								// Filtering the availability string to display the meaninful part
-								let filteredAvailability = availability.datapayload?
+								let formattedPayload = payload
 									.replacingOccurrences(of: "<AVAILABILITY>\n  <CODE>200</CODE>\n  <INSTOCKVALUE>", with: "")
 									.replacingOccurrences(of: "</INSTOCKVALUE>\n</AVAILABILITY>", with: "")
-								let updatedProduct = Product(id: product.id,
-															 type: product.type,
-															 name: product.name,
-															 color: product.color,
-															 price: product.price,
-															 manufacturer: product.manufacturer,
-															 availability: filteredAvailability)
-								// Parsing data that was received with the request and sending it to the delegate a.k.a CategoryViewController
-								self.parent?.didUpdateProduct(model: updatedProduct)
+
+								payloadArray.append(PayloadFile(id: id.uppercased(), payload: formattedPayload))
+
+								if availability.id == product.id.uppercased() {
+									let updatedProduct = Product(id: product.id,
+																 type: product.type,
+																 name: product.name,
+																 color: product.color,
+																 price: product.price,
+																 manufacturer: product.manufacturer,
+																 availability: formattedPayload)
+									// Parsing data that was received with the request and sending it to the delegate a.k.a CategoryViewController
+									self.parent?.didUpdateProduct(model: updatedProduct)
+								}
 							}
 						}
 					}
 				}
 			}
+			self.parent?.saveAvailability(for: ManufacturerFile(
+											name: product.manufacturer.rawValue,
+											payload: payloadArray))
 		}
 	}
 }

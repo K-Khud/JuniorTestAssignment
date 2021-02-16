@@ -35,6 +35,7 @@ enum Manufacturer: String, Codable {
 	case laion
 	case niksleh
 	case umpante
+	case okkau
 }
 
 enum TypeEnum: String, Codable {

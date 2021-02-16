@@ -21,6 +21,10 @@
 		02249E292574452300C891E9 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02249E282574452300C891E9 /* LoadingView.swift */; };
 		0263336925D6E682005C1CCC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0263336825D6E682005C1CCC /* README.md */; };
 		0263336C25D9B58E005C1CCC /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263336B25D9B58E005C1CCC /* Repository.swift */; };
+		0263337025DA8451005C1CCC /* ProductsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263336F25DA8451005C1CCC /* ProductsCache.swift */; };
+		0263337925DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0263337725DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodeld */; };
+		027768FF25DB051500F33776 /* AvailabilityCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027768FE25DB051500F33776 /* AvailabilityCache.swift */; };
+		02DA8DD025DB0C7F0039E7A8 /* ManufacturerFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DA8DCF25DB0C7F0039E7A8 /* ManufacturerFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		02249E282574452300C891E9 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		0263336825D6E682005C1CCC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "../Downloads/ReaktorJuniorDeveloperAssignment-main/README.md"; sourceTree = "<group>"; };
 		0263336B25D9B58E005C1CCC /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		0263336F25DA8451005C1CCC /* ProductsCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCache.swift; sourceTree = "<group>"; };
+		0263337825DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JuniorDeveloperAssignment.xcdatamodel; sourceTree = "<group>"; };
+		027768FE25DB051500F33776 /* AvailabilityCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityCache.swift; sourceTree = "<group>"; };
+		02DA8DCF25DB0C7F0039E7A8 /* ManufacturerFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManufacturerFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +83,8 @@
 			children = (
 				02249E14257444E400C891E9 /* AppDelegate.swift */,
 				02249DDC2574433000C891E9 /* SceneDelegate.swift */,
-				0263336B25D9B58E005C1CCC /* Repository.swift */,
-				02249E1E2574451000C891E9 /* BadApiClient.swift */,
+				02AAF14E25DBD78200C85A8B /* WebService */,
+				02AAF14C25DBD76700C85A8B /* Cache */,
 				02249E2C2574457C00C891E9 /* Models */,
 				02249E2E2574458700C891E9 /* Views */,
 				02249E302574459B00C891E9 /* Controllers */,
@@ -91,8 +99,10 @@
 		02249E2C2574457C00C891E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0263336B25D9B58E005C1CCC /* Repository.swift */,
 				02249E202574451000C891E9 /* AvailabilityPerManufacturer.swift */,
 				02249E1F2574451000C891E9 /* ProductModel.swift */,
+				02DA8DCF25DB0C7F0039E7A8 /* ManufacturerFile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -113,6 +123,24 @@
 				02249E192574450400C891E9 /* CustomTabBarController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		02AAF14C25DBD76700C85A8B /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				0263337725DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodeld */,
+				0263336F25DA8451005C1CCC /* ProductsCache.swift */,
+				027768FE25DB051500F33776 /* AvailabilityCache.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		02AAF14E25DBD78200C85A8B /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				02249E1E2574451000C891E9 /* BadApiClient.swift */,
+			);
+			path = WebService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,13 +235,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0263337925DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodeld in Sources */,
 				02249E1B2574450400C891E9 /* CategoryViewController.swift in Sources */,
 				02249E15257444E400C891E9 /* AppDelegate.swift in Sources */,
+				027768FF25DB051500F33776 /* AvailabilityCache.swift in Sources */,
 				02249E1C2574450400C891E9 /* CustomTabBarController.swift in Sources */,
 				02249E292574452300C891E9 /* LoadingView.swift in Sources */,
+				0263337025DA8451005C1CCC /* ProductsCache.swift in Sources */,
 				02249E232574451000C891E9 /* AvailabilityPerManufacturer.swift in Sources */,
 				02249E212574451000C891E9 /* BadApiClient.swift in Sources */,
 				02249DDD2574433000C891E9 /* SceneDelegate.swift in Sources */,
+				02DA8DD025DB0C7F0039E7A8 /* ManufacturerFile.swift in Sources */,
 				0263336C25D9B58E005C1CCC /* Repository.swift in Sources */,
 				02249E1A2574450400C891E9 /* DetailsViewController.swift in Sources */,
 				02249E222574451000C891E9 /* ProductModel.swift in Sources */,
@@ -412,6 +444,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0263337725DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0263337825DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodel */,
+			);
+			currentVersion = 0263337825DA8A30005C1CCC /* JuniorDeveloperAssignment.xcdatamodel */;
+			path = JuniorDeveloperAssignment.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 02249DCF2574433000C891E9 /* Project object */;
 }

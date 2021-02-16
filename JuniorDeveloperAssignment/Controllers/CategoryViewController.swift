@@ -18,7 +18,7 @@ protocol ICategoryViewController: AnyObject {
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 	private let category: String
-	private lazy var repository = Repository(parent: self)
+	private lazy var repository = Repository(parent: self, category: category)
 	private var detailsViewController: DetailsViewController?
 	private var tableView 		= UITableView()
 	private var productsArray 	= Products()
@@ -163,7 +163,9 @@ extension CategoryViewController: ICategoryViewController {
 	}
 
 	func didUpdateProduct(model: Product) {
-		detailsViewController?.updateData(with: model)
+		DispatchQueue.main.async {
+			self.detailsViewController?.updateData(with: model)
+		}
 	}
 
 	func didFailWithError(error: Error) {

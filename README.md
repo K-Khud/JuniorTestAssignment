@@ -28,6 +28,10 @@ There are two entities:
 `ProductCache` - to save the list of products per category.
 `Content` - to save the availability records per manufacturer from the separate backend response. Single record is the `availability` per product `id`.
 
+**Code Style**
+
+`SwiftLint` is integrated into Xcode to follow Swift style and conventions.
+
 ## Requirements
 
 * Swift 5.0
@@ -36,7 +40,7 @@ There are two entities:
 
 ## Features
 
-* Fast switching between categories with the tabBar.
+* Local cache with the use of CoreData.
 * Fast switching between categories with the tabBar.
 * Search within a category across id/name/manufacturer.
 * Loading animation to add responsiveness to the app.

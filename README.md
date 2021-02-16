@@ -1,7 +1,7 @@
 # Junior Developer Assignment
 Legend: Our client is a clothing brand that is looking for a simple web app to use in their warehouses. 
 To do their work efficiently, the warehouse workers need a fast and simple listing page per product category, where they can check simple product and availability information from a single UI.
-There are three product categories they are interested in for now: jackets, shirts, and accessories. 
+There are three product categories they are interested in for now: gloves, facemasks, and beanies. 
 
 # Technical Solutions  
   

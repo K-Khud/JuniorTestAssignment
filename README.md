@@ -11,7 +11,7 @@ In this project I followed MVС architecture approach with the difference in the
 
 `Model` in my project is presented by a `repository`, which receives the query from `controller` to get list of products or the product details.
 
-`Repository` checks if the data is available from the local cache, and, if it receives nil from the cache, then it sends the fetch request to the `network` a.k.a `BadApiClient`. 
+`Repository` checks if the data is available from the local cache, and, if it receives `nil` from the cache, then it sends the fetch request to the `network` a.k.a `BadApiClient`. 
   
 The `BadApiClient` module contains code working with the backend. 
       
@@ -23,7 +23,7 @@ Also, the optionals help to handle the malformed backend response without the ap
 
 **Cache**  
   
-The `ProductsCache` & `Availability` modules are the local data storages implemented with the use of `CoreData` framework.
+The `ProductsCache` & `AvailabilityCache` modules are the local data storages implemented with the use of `CoreData` framework.
 There are two entities: 
 `ProductCache` - to save the list of products per category.
 `Content` - to save the availability records per manufacturer from the separate backend response. Single record is the `availability` per product `id`.

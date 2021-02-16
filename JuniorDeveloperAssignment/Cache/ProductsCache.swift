@@ -21,7 +21,7 @@ class ProductsCache {
 	init(parent: IRepository) {
 		self.parent = parent
 	}
-	
+
 	// MARK: - Load & Save Methods
 	private func loadCachedProducts(
 		with request: NSFetchRequest<ProductCache> = ProductCache.fetchRequest(),
@@ -52,17 +52,6 @@ class ProductsCache {
 			print("Error saving cachedProducts, \(error)")
 		}
 	}
-//	private func clearCache(category: String) {
-//		guard let context = context else { return }
-//
-//			self.productsCached.forEach { (cachedProduct) in
-//				if cachedProduct.type == category {
-//					context.delete(cachedProduct)
-//				}
-//			}
-//
-//		productsCached = productsCached.filter{$0.type != category}
-//	}
 
 	private func parseFromCache() -> [Product] {
 		var products = [Product]()
@@ -85,11 +74,6 @@ class ProductsCache {
 extension ProductsCache: IProductsCache {
 	func updateCache(with products: [Product], category: String) {
 		guard let context 		= context else { return }
-
-//		let productsPerCategory = productsCached.filter { $0.type == category }
-//		if productsPerCategory.count > 0 {
-//			clearCache(category: category)
-//		}
 
 			products.forEach { (product) in
 				let newProductCached 			= ProductCache(context: context)

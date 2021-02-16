@@ -23,7 +23,7 @@ class AvailabilityCache {
 	}
 
 	// MARK: - Load & Save Methods
-	
+
 	private func loadCachedContents(
 		with request: NSFetchRequest<Content> = Content.fetchRequest(),
 		predicate: NSPredicate? = nil) {
@@ -50,20 +50,6 @@ class AvailabilityCache {
 			print("Error saving cachedAvailability, \(error)")
 		}
 	}
-
-//	private func clearCache(manufacturerName: String) {
-//		guard let context = context else { return }
-//
-//			self.availabilityCached.forEach { (manufacturer) in
-//				if manufacturer.name == manufacturerName {
-//					context.delete(manufacturer)
-//				}
-//			}
-//		print(#function)
-//		availabilityCached = availabilityCached.filter {$0.name != manufacturerName}
-//		print("availabilityCached.count = \(availabilityCached.count)")
-//	}
-
 }
 
 extension AvailabilityCache: IAvailabilityCache {

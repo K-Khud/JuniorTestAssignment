@@ -21,15 +21,14 @@ class ProductsCache {
 	init(parent: IRepository) {
 		self.parent = parent
 	}
+	
 	// MARK: - Load & Save Methods
 	private func loadCachedProducts(
 		with request: NSFetchRequest<ProductCache> = ProductCache.fetchRequest(),
 		predicate: NSPredicate? = nil) -> [Product]? {
-
 		guard let context = context else { return nil}
 
-//		let positionSort = NSSortDescriptor(key: "name", ascending: true)
-//		request.sortDescriptors = [positionSort]
+		productsCached.removeAll()
 
 		if let predicate = predicate {
 			request.predicate 	= predicate
@@ -42,12 +41,12 @@ class ProductsCache {
 
 		return !productsCached.isEmpty ? parseFromCache() : nil
 	}
+
 	private func save() {
 		guard let context = context else { return }
 
 		do {
 			try context.save()
-			print(#function)
 
 		} catch {
 			print("Error saving cachedProducts, \(error)")
@@ -63,7 +62,6 @@ class ProductsCache {
 //			}
 //
 //		productsCached = productsCached.filter{$0.type != category}
-//		print("productsCached.count = \(productsCached.count)")
 //	}
 
 	private func parseFromCache() -> [Product] {
@@ -88,8 +86,7 @@ extension ProductsCache: IProductsCache {
 	func updateCache(with products: [Product], category: String) {
 		guard let context 		= context else { return }
 
-		let productsPerCategory = productsCached.filter { $0.type == category }
-
+//		let productsPerCategory = productsCached.filter { $0.type == category }
 //		if productsPerCategory.count > 0 {
 //			clearCache(category: category)
 //		}
@@ -109,13 +106,10 @@ extension ProductsCache: IProductsCache {
 	}
 
 	func getProductsFromCache(for type: String) -> [Product]? {
-		productsCached.removeAll()
-
 		guard let products = loadCachedProducts() else {return nil}
 
 		let outputArray = products.filter { $0.type == TypeEnum(rawValue: type) }
 
 		return outputArray.count > 0 ? outputArray : nil
-
 	}
 }

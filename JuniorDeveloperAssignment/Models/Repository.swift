@@ -37,15 +37,10 @@ class Repository {
 extension Repository: IRepository {
 	// MARK: - Methods called from CategoryViewController
 	func fetchProducts(category: String) {
-		print(#function)
-
 		if let products = productsCache.getProductsFromCache(for: category) {
-			print("products from cache")
-			print("products.count = \(products.count)")
 			parent?.didUpdateList(model: products)
 
 		} else {
-			print("products.isEmpty")
 			client.fetchProducts(category: category)
 		}
 	}
@@ -68,9 +63,6 @@ extension Repository: IRepository {
 	}
 	// MARK: - Methods called from BadApiClient
 	func didUpdateList(model: Products) {
-		print(#function)
-		print("products.count = \(model.count)")
-
 		parent?.didUpdateList(model: model)
 
 		DispatchQueue.main.async {

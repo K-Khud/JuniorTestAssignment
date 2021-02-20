@@ -7,29 +7,32 @@
 
 import UIKit
 protocol ICategoryViewController: AnyObject {
+	// MARK: - Methods called from Repository
 	// Loads up the initial list with all products per category
 	func didUpdateList(model: Products)
 	// Loads up the availability for a particular product
 	func didUpdateProduct(model: Product)
 	// Error handling
 	func didFailWithError(error: Error)
+	// MARK: - Methods called from Repository
+	func tryFetchAvailability(for product: Product)
 }
 
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 	private let category: String
-	private lazy var repository = Repository(parent: self, category: category)
 	private var detailsViewController: DetailsViewController?
+	private lazy var repository = Repository(parent: self, category: category)
 	private var tableView 		= UITableView()
 	private var productsArray 	= Products()
 	private var filteredData 	= Products()
 	private var listIsFiltered 	= false
 	private var loadingView 	= LoadingView(frame: .zero)
-	private var itemColorImage 	= UIImage(systemName: "circle.fill")?.withTintColor(.magenta)
+	private var itemColorImage 	= UIImage(systemName: Constants.colorImageName)?.withTintColor(.magenta)
 
 	private var searchBar: UISearchBar = {
 		let bar 			= UISearchBar()
-		bar.placeholder 	= "Search"
+		bar.placeholder 	= Constants.searchPlaceHolder
 		bar.backgroundColor = .systemBackground
 		bar.searchBarStyle 	= .minimal
 		return bar
@@ -46,7 +49,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-//		client.delegate 									= self
 		tableView.delegate 									= self
 		tableView.dataSource 								= self
 		searchBar.searchTextField.delegate 					= self
@@ -87,7 +89,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	}
 
 	private func registerCells() {
-		tableView.register(UITableViewCell.self, forCellReuseIdentifier: "shirtsCell")
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.categoryCellId)
 	}
 
 	// MARK: - TableViewDataSource methods
@@ -98,25 +100,22 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let arrayForDisplay = listIsFiltered ? filteredData : productsArray
 		animateLoading()
-		let cell 					= UITableViewCell(style: .subtitle, reuseIdentifier: "shirtsCell")
-		let color 					= arrayForDisplay[indexPath.row].color[0]
-		let name 					= arrayForDisplay[indexPath.row].name
+		let arrayForDisplay = listIsFiltered ? filteredData : productsArray
+		let cell 					= UITableViewCell(style: .subtitle, reuseIdentifier: Constants.categoryCellId)
 		let manufacturer 			= arrayForDisplay[indexPath.row].manufacturer.rawValue
 		let price 					= String(arrayForDisplay[indexPath.row].price)
-		let detailsString 			= "price: \(price), manufacturer: \(manufacturer)"
-		cell.imageView?.image 		= getImageColored(color: color)
-		cell.textLabel?.text 		= name
+		cell.imageView?.image 		= getImageColored(color: arrayForDisplay[indexPath.row].color[0])
+		cell.textLabel?.text 		= arrayForDisplay[indexPath.row].name
 		cell.accessoryType 			= .disclosureIndicator
-		cell.detailTextLabel?.text 	= detailsString
+		cell.detailTextLabel?.text 	= "price: \(price), manufacturer: \(manufacturer)"
 		return cell
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let arrayForDisplay = listIsFiltered ? filteredData : productsArray
 		repository.fetchAvailability(for: arrayForDisplay[indexPath.row])
-		detailsViewController = DetailsViewController(product: arrayForDisplay[indexPath.row])
+		detailsViewController = DetailsViewController(product: arrayForDisplay[indexPath.row], category: self)
 		if let detailsViewController = detailsViewController {
 			self.navigationController?.pushViewController(detailsViewController,
 														  animated: true)
@@ -154,7 +153,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 }
 // MARK: - BadApiClientDelegate methods
 extension CategoryViewController: ICategoryViewController {
-
+	// MARK: - Methods called from Repository
 	func didUpdateList(model: Products) {
 		DispatchQueue.main.async {
 			self.productsArray = model
@@ -169,8 +168,11 @@ extension CategoryViewController: ICategoryViewController {
 	}
 
 	func didFailWithError(error: Error) {
-		print(error)
-		// TODO: show the try again alert!
+		detailsViewController?.didFailWithError(error: error)
+	}
+	// MARK: - Methods called from Repository
+	func tryFetchAvailability(for product: Product) {
+		repository.fetchAvailability(for: product)
 	}
 }
 // MARK: - UITextFieldDelegate methods

@@ -14,8 +14,8 @@ protocol IBadApiClient: AnyObject {
 
 public class BadApiClient {
 	private weak var parent: IRepository?
-	private let apiUrl = "https://bad-api-assignment.reaktor.com/v2/"
 	private var currentProduct: Product?
+	private let apiUrl = Constants.baseURL
 
 	init(parent: IRepository) {
 		self.parent = parent
@@ -89,7 +89,6 @@ public class BadApiClient {
 extension BadApiClient: IBadApiClient {
 	// The following method gets called upon initial loading of a chosen viewController
 	func fetchProducts(category: String) {
-		print("products from BadApiClient")
 
 		let urlString = "\(apiUrl)products/\(category)"
 		// Performing request for a chosen category
@@ -109,6 +108,7 @@ extension BadApiClient: IBadApiClient {
 
 	// The following method gets called when a user proceeds to check product details
 	func fetchAvailability(for product: Product) {
+
 		let urlString = "\(apiUrl)availability/\(product.manufacturer.rawValue)"
 		var payloadArray = [PayloadFile]()
 		// Performing request for a chosen manufacturer
@@ -120,13 +120,13 @@ extension BadApiClient: IBadApiClient {
 					if let safeData = self.parseJsonToAvailabilityList(data) {
 
 						safeData.forEach { (availability) in
-							if let id = availability.id, let payload = availability.datapayload {
+							if let productId = availability.id, let payload = availability.datapayload {
 								// Filtering the availability string to display the meaninful part
 								let formattedPayload = payload
 									.replacingOccurrences(of: "<AVAILABILITY>\n  <CODE>200</CODE>\n  <INSTOCKVALUE>", with: "")
 									.replacingOccurrences(of: "</INSTOCKVALUE>\n</AVAILABILITY>", with: "")
 
-								payloadArray.append(PayloadFile(id: id.uppercased(), payload: formattedPayload))
+								payloadArray.append(PayloadFile(id: productId.uppercased(), payload: formattedPayload))
 
 								if availability.id == product.id.uppercased() {
 									let updatedProduct = Product(id: product.id,

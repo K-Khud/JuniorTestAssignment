@@ -3,6 +3,7 @@
     <entity name="Content" representedClassName=".Content" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String" defaultValueString=""/>
         <attribute name="payload" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <entity name="ProductCache" representedClassName=".ProductCache" syncable="YES" codeGenerationType="class">
         <attribute name="availability" optional="YES" attributeType="String"/>
@@ -11,10 +12,11 @@
         <attribute name="manufacturer" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="price" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
-        <element name="Content" positionX="-338.3279418945312" positionY="45.15960693359375" width="128" height="59"/>
-        <element name="ProductCache" positionX="-37.9473876953125" positionY="-8.38580322265625" width="128" height="148"/>
+        <element name="Content" positionX="-338.3279418945312" positionY="45.15960693359375" width="128" height="74"/>
+        <element name="ProductCache" positionX="-37.9473876953125" positionY="-8.38580322265625" width="128" height="149"/>
     </elements>
 </model>

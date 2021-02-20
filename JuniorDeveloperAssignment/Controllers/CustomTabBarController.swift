@@ -18,23 +18,22 @@ class CustomTabBarController: UITabBarController {
 	}
 
 	func setupControllers() {
-		let glovesController 			= CategoryViewController(category: "gloves")
-		let facemasksViewController 	= CategoryViewController(category: "facemasks")
-		let beaniesViewController 		= CategoryViewController(category: "beanies")
+		let glovesController 			= CategoryViewController(category: Constants.firstCategory)
+		let facemasksViewController 	= CategoryViewController(category: Constants.secondCategory)
+		let beaniesViewController 		= CategoryViewController(category: Constants.thirdCategory)
 		let controllers 				= [glovesController, facemasksViewController, beaniesViewController]
 			.map {UINavigationController(rootViewController: $0)}
 
 		viewControllers = controllers
 
 		glovesController.tabBarItem 		= UITabBarItem(
-			title: "Gloves",
-			image: UIImage(systemName: "g.circle.fill"	), tag: 0)
+			title: Constants.firstCategory.capitalized,
+			image: UIImage(systemName: Constants.tabFirstImageName), tag: 0)
 		facemasksViewController.tabBarItem 	= UITabBarItem(
-			title: "Facemasks",
-			image: UIImage(systemName: "f.circle.fill"	), tag: 1)
+			title: Constants.secondCategory.capitalized,
+			image: UIImage(systemName: Constants.tabSecondImageName), tag: 1)
 		beaniesViewController.tabBarItem 	= UITabBarItem(
-			title: "Beanies",
-			image: UIImage(systemName: "b.circle.fill"
-														), tag: 2)
+			title: Constants.thirdCategory.capitalized,
+			image: UIImage(systemName: Constants.tabThirdImageName), tag: 2)
 	}
 }

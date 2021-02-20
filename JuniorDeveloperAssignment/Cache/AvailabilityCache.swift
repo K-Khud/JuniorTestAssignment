@@ -23,7 +23,6 @@ class AvailabilityCache {
 	}
 
 	// MARK: - Load & Save Methods
-
 	private func loadCachedContents(
 		with request: NSFetchRequest<Content> = Content.fetchRequest(),
 		predicate: NSPredicate? = nil) {
@@ -50,6 +49,18 @@ class AvailabilityCache {
 			print("Error saving cachedAvailability, \(error)")
 		}
 	}
+	private func cacheTimeValidation(for record: Content, currentTimestamp: Double) -> Bool {
+		return (currentTimestamp - record.timestamp) < Constants.cacheTimeSeconds
+	}
+	private func clearCache(currentTimestamp: Double) {
+		contentsCached.forEach { (record) in
+			if currentTimestamp - record.timestamp >= Constants.cacheTimeSeconds {
+				context?.delete(record)
+			}
+		}
+		contentsCached = contentsCached.filter({currentTimestamp - $0.timestamp < Constants.cacheTimeSeconds})
+	}
+
 }
 
 extension AvailabilityCache: IAvailabilityCache {
@@ -60,6 +71,7 @@ extension AvailabilityCache: IAvailabilityCache {
 			let newPayloadCached 				= Content(context: context)
 			newPayloadCached.id?			 	= payload.id.uppercased()
 			newPayloadCached.payload 			= payload.payload
+			newPayloadCached.timestamp			= NSDate().timeIntervalSince1970
 			contentsCached.append(newPayloadCached)
 			}
 
@@ -68,9 +80,15 @@ extension AvailabilityCache: IAvailabilityCache {
 
 	func getProductAvailability(for productID: String) -> String? {
 		loadCachedContents()
+		let currentTimeStamp = NSDate().timeIntervalSince1970
+		guard let recordContent = contentsCached
+				.filter({$0.id == productID.uppercased()})
+				.first else { return nil }
 
-		let outputAvailability = contentsCached.filter {$0.id == productID.uppercased()}
-
-		return outputAvailability.first?.payload
+		guard cacheTimeValidation(for: recordContent, currentTimestamp: currentTimeStamp) else {
+			clearCache(currentTimestamp: currentTimeStamp)
+			return nil
+		}
+		return recordContent.payload
 	}
 }

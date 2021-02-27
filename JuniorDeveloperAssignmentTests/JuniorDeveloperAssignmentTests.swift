@@ -15,9 +15,6 @@ class JuniorDeveloperAssignmentTests: XCTestCase {
 
     override func setUpWithError() throws {
 		super.setUp()
-		glovesViewController = CategoryViewController(category: Constants.firstCategory)
-		glovesRepository = Repository(parent: glovesViewController, category: Constants.firstCategory)
-		productsCache = ProductsCache(parent: glovesRepository)
     }
 
     override func tearDownWithError() throws {

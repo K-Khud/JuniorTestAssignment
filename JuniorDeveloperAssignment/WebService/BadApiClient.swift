@@ -29,8 +29,8 @@ public class BadApiClient {
 											  timeoutInterval: 60.0)
 			request.httpMethod = "GET"
 			// Headers to force the response error:
-			let headers = ["x-force-error-mode": "all"]
-			request.allHTTPHeaderFields = headers
+//			let headers = ["x-force-error-mode": "all"]
+//			request.allHTTPHeaderFields = headers
 			let dataTask = session.dataTask(with: request as URLRequest,
 											completionHandler: { (data, _, error) -> Void in
 												if let error = error {
@@ -83,18 +83,21 @@ public class BadApiClient {
 			return nil
 		}
 	}
+	func createURL(isFetchingProducts: Bool, segmentName: String) -> String {
+		return isFetchingProducts ? "\(apiUrl)products/\(segmentName)" : "\(apiUrl)availability/\(segmentName)"
+	}
 }
 // MARK: - IBadApiClient Methods
 extension BadApiClient: IBadApiClient {
 	// The following method gets called upon initial loading of a chosen viewController
 	func fetchProducts(category: String) {
 
-		let urlString = "\(apiUrl)products/\(category)"
+		let urlString = createURL(isFetchingProducts: true, segmentName: category)
 		// Performing request for a chosen category
 		performRequest(with: urlString) { (result) in
 			_ = result.map { (data) in
 				if data.isEmpty {
-					print("Data is empty")
+					self.parent?.didFailWithError(error: NSError())
 				} else {
 					// Parsing data that was received with the request and sending it to the delegate a.k.a CategoryViewController
 					if let data = self.parseJsonToProducts(data) {
@@ -108,7 +111,7 @@ extension BadApiClient: IBadApiClient {
 	// The following method gets called when a user proceeds to check product details
 	func fetchAvailability(for product: Product) {
 
-		let urlString = "\(apiUrl)availability/\(product.manufacturer.rawValue)"
+		let urlString = createURL(isFetchingProducts: false, segmentName: product.manufacturer.rawValue)
 		var payloadArray = [PayloadFile]()
 		// Performing request for a chosen manufacturer
 		performRequest(with: urlString) { (result) in

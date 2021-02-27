@@ -128,12 +128,12 @@ extension DetailsViewController: UITableViewDataSource {
 				activityView.stopAnimating()
 			} else if activityView.isAnimating {
 				activityView.stopAnimating()
-				detailDescription = "no info"
+				detailDescription = Constants.noAvailability
 			} else {
 				activityView.startAnimating()
 				cell.accessoryView = activityView
 			}
-		default: detailDescription = "no info"
+		default: detailDescription = Constants.noAvailability
 		}
 		cell.textLabel?.text = Constants.detailsNames[indexPath.row] + detailDescription
 		return cell

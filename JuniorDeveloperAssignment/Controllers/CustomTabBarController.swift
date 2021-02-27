@@ -4,7 +4,7 @@
 //
 //  Created by Ekaterina Khudzhamkulova on 28.11.2020.
 //
-
+import SwiftUI
 import UIKit
 
 class CustomTabBarController: UITabBarController {
@@ -18,15 +18,17 @@ class CustomTabBarController: UITabBarController {
 	}
 
 	func setupControllers() {
-		let glovesController 			= CategoryViewController(category: Constants.firstCategory)
+		let glovesRootView 				= SwiftUICategoryView(category: Constants.firstCategory)
+		let swiftUIGloves 				= UIHostingController(rootView: glovesRootView)
+
 		let facemasksViewController 	= CategoryViewController(category: Constants.secondCategory)
 		let beaniesViewController 		= CategoryViewController(category: Constants.thirdCategory)
-		let controllers 				= [glovesController, facemasksViewController, beaniesViewController]
+		let controllers 				= [swiftUIGloves, facemasksViewController, beaniesViewController]
 			.map {UINavigationController(rootViewController: $0)}
 
 		viewControllers = controllers
 
-		glovesController.tabBarItem 		= UITabBarItem(
+		swiftUIGloves.tabBarItem 		= UITabBarItem(
 			title: Constants.firstCategory.capitalized,
 			image: UIImage(systemName: Constants.tabFirstImageName), tag: 0)
 		facemasksViewController.tabBarItem 	= UITabBarItem(

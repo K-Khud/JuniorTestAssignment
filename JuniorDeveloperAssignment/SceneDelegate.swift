@@ -4,7 +4,7 @@
 //
 //  Created by Ekaterina Khudzhamkulova on 29.11.2020.
 //
-
+import SwiftUI
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let windowScene = (scene as? UIWindowScene) else { return }
 
 		let tabBarViewController = CustomTabBarController()
-
+//		let tabBarViewController = SwiftUITabView()
+//		let tabBarHostViewController = UIHostingController(rootView: tabBarViewController)
+		
 		window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 		window?.windowScene = windowScene
 		window?.rootViewController = tabBarViewController

@@ -21,16 +21,19 @@ protocol IRepository: AnyObject {
 	func didFailWithError(error: Error)
 }
 class Repository {
-	private weak var parent: ICategoryViewController?
+	private var parent: ICategoryViewController?
 	private lazy var client 			= BadApiClient(parent: self)
 	private lazy var productsCache 		= ProductsCache(parent: self)
 	private lazy var availabilityCache 	= AvailabilityCache(parent: self)
 
 	private let category: String
 
-	init(parent: CategoryViewController, category: String) {
+	init(parent: ICategoryViewController?, category: String) {
 		self.parent 	= parent
 		self.category	= category
+	}
+	deinit {
+		print("repository deinit")
 	}
 }
 // MARK: - IRepository Methods

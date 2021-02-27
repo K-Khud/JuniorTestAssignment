@@ -6,7 +6,7 @@
 //
 
 import UIKit
-protocol ICategoryViewController: AnyObject {
+protocol ICategoryViewController {
 	// MARK: - Methods called from Repository
 	// Loads up the initial list with all products per category
 	func didUpdateList(model: Products)
@@ -105,7 +105,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 		let cell 					= UITableViewCell(style: .subtitle, reuseIdentifier: Constants.categoryCellId)
 		let manufacturer 			= arrayForDisplay[indexPath.row].manufacturer.rawValue
 		let price 					= String(arrayForDisplay[indexPath.row].price)
-		cell.imageView?.image 		= getImageColored(color: arrayForDisplay[indexPath.row].color[0])
+		cell.imageView?.image 		= Constants.getImageColored(color: arrayForDisplay[indexPath.row].color[0])
 		cell.textLabel?.text 		= arrayForDisplay[indexPath.row].name
 		cell.accessoryType 			= .disclosureIndicator
 		cell.detailTextLabel?.text 	= "price: \(price), manufacturer: \(manufacturer)"
@@ -120,22 +120,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
 			self.navigationController?.pushViewController(detailsViewController,
 														  animated: true)
 		}
-	}
-
-	private func getImageColored(color: Color) -> UIImage? {
-		if let image = itemColorImage {
-			switch color {
-			case .black: return image.withTintColor(.black, renderingMode: .alwaysOriginal)
-			case .blue: return image.withTintColor(.blue, renderingMode: .alwaysOriginal)
-			case .green: return image.withTintColor(.green, renderingMode: .alwaysOriginal)
-			case .grey: return image.withTintColor(.gray, renderingMode: .alwaysOriginal)
-			case .purple: return image.withTintColor(.purple, renderingMode: .alwaysOriginal)
-			case .red: return image.withTintColor(.red, renderingMode: .alwaysOriginal)
-			case .white: return image.withTintColor(.white, renderingMode: .alwaysOriginal)
-			case .yellow: return image.withTintColor(.yellow, renderingMode: .alwaysOriginal)
-			}
-		}
-		return itemColorImage
 	}
 
 	// MARK: - Loading Animation

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, Hashable {
 	let id: String
 	let type: TypeEnum
 	let name: String

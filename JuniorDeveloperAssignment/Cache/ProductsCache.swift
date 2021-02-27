@@ -51,12 +51,6 @@ class ProductsCache {
 			print("Error saving cachedProducts, \(error)")
 		}
 	}
-	private func cacheTimeValidation(for type: String) -> Bool {
-		guard let productTimestamp = productsCached
-				.filter({$0.type == type})
-				.first?.timestamp else {return false}
-		return (NSDate().timeIntervalSince1970 - productTimestamp) < Constants.cacheTimeSeconds
-	}
 	private func clearCache(for type: String) {
 		productsCached.forEach { (productCached) in
 			if productCached.type == type {
@@ -81,6 +75,12 @@ class ProductsCache {
 				products.append(newProduct)
 			}
 		return products
+	}
+	private func cacheTimeValidation(for type: String) -> Bool {
+		guard let productTimestamp = productsCached
+				.filter({$0.type == type})
+				.first?.timestamp else {return false}
+		return (NSDate().timeIntervalSince1970 - productTimestamp) < Constants.cacheTimeSeconds
 	}
 }
 

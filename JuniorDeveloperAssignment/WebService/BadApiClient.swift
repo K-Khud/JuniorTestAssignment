@@ -29,8 +29,8 @@ public class BadApiClient {
 											  timeoutInterval: 60.0)
 			request.httpMethod = "GET"
 			// Headers to force the response error:
-//			let headers = ["x-force-error-mode": "all"]
-//			request.allHTTPHeaderFields = headers
+			let headers = ["x-force-error-mode": "all"]
+			request.allHTTPHeaderFields = headers
 			let dataTask = session.dataTask(with: request as URLRequest,
 											completionHandler: { (data, _, error) -> Void in
 												if let error = error {
@@ -45,7 +45,6 @@ public class BadApiClient {
 			dataTask.resume()
 		}
 	}
-
 	private func parseJsonToProducts(_ data: Data) -> Products? {
 		var productsArray = Products()
 		let decoder = JSONDecoder()

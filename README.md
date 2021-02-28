@@ -52,6 +52,8 @@ There are two entities:
   * Some of the UI components don't exist in SwiftUI, i.e. SearchBar. I've built a wrapper for it.
   * I would like illustrate the "migrating stage" of UIKit project, when going from UIKit to SwiftUI. For the real project I would consider replacing the UIKit components as much as possible.
   
+* I didn't implement pagination. The task didn't require it explicitly, I'd definetely add it in future, since the product list contains more than 6000 elements. 
+  
 * I didn't implement testing. On production I would add the following tests:
   * Unit tests for URL constructor: method of `BadApiClient`;
   * Integration tests for parsing of data models. For that I would add json files and parse them with the existing models. The tests would check that fields of parsed models have same values as jsons.

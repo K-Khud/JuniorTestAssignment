@@ -55,7 +55,7 @@ There are two entities:
 * I didn't implement pagination. The task didn't require it explicitly, I'd definetely add it in future, since the product list contains more than 6000 elements. 
   
 * I didn't implement testing. On production I would add the following tests:
-  * Unit tests for URL constructor: method of `BadApiClient`;
+  * Unit tests for URL constructor: method of `BadApiClient`.
   * Integration tests for parsing of data models. For that I would add json files and parse them with the existing models. The tests would check that fields of parsed models have same values as jsons.
 
 ## Requirements
